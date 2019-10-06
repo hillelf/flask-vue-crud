@@ -52,7 +52,7 @@ def all_books():
             'id': uuid.uuid4().hex,
             'title': post_data.get('title'),
             'author': post_data.get('author'),
-            'read': post_data.get('read')
+            'read': post_data.get('read'),
         })
         response_object['message'] = 'Book added!'
     else:
