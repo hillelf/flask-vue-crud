@@ -33,7 +33,12 @@
 											@click="editBook(book)">
 											Update
 									</button>
-                  <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                  <button 
+									    type="button" 
+											class="btn btn-danger btn-sm"
+											@click="onDeleteBook(book)">
+											Delete
+									</button>
                 </div>
               </td>
             </tr>
@@ -182,6 +187,23 @@ export default {
 					console.error(error);
 					this.getBooks();
 				})
+		},
+		removeBook(bookID) {
+			const path = `http://localhost:5000/books/${bookID}`;
+			axios.delete(path)
+			  .then(() => {
+					this.getBooks();
+					this.message = 'Book removed';
+					this.showMessage = true;
+				})
+				.catch((error) => {
+					// eslint-disable-next-line
+					console.error(error);
+					this.getBooks();
+				})
+		},
+		onDeleteBook(book) {
+			this.removeBook(book.id);
 		},
 		editBook(book) {
 			this.editForm = book;
