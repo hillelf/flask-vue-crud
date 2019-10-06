@@ -28,7 +28,8 @@
                 <div class="btn-group" role="group">
                   <button 
 									    type="button" 
-											class="btn btn-warning btn-sm" 
+											class="btn btn-warning btn-sm"
+											v-b-modal.book-update-modal
 											@click="editBook(book)">
 											Update
 									</button>
@@ -168,6 +169,23 @@ export default {
 					this.getBooks();
 				});
 		},
+		updateBook(payload, bookID) {
+			const path = `http://localhost:5000/books/${bookID}`;
+			axios.put(path, payload)
+			  .then(() => {
+					this.getBooks();
+					this.message = 'Book updated!';
+					this.showMessage = true;
+				})
+				.catch((error) => {
+					// eslint-disable-next-line
+					console.error(error);
+					this.getBooks();
+				})
+		},
+		editBook(book) {
+			this.editForm = book;
+		},
 		initForm() {
 			this.addBookForm.title = '';
 			this.addBookForm.author = '';
@@ -190,9 +208,6 @@ export default {
 			this.addBook(payload);
 			this.initForm();
 		},
-		editBook(book) {
-			this.editForm = book;
-		},
 		onSubmitUpdate(evt) {
 			evt.preventDefault();
 			this.$refs.editBookModal.hide();
@@ -204,20 +219,6 @@ export default {
 				read,
 			};
 			this.updateBook(payload, this.editForm.id);
-		},
-		updateBook(payload, bookID) {
-			const path = `http://localhost:5000/books/${bookID}`;
-			axios.put(path, payload)
-			  .then(() => {
-					this.getBooks();
-					this.message = 'Book updated!';
-					this.showMessage = true;
-				})
-				.catch((error) => {
-					// eslint-disable-next-line
-					console.error(error);
-					this.getBooks();
-				})
 		},
 		onReset(evt) {
 			evt.preventDefault();
