@@ -82,7 +82,8 @@ def remove_book(book_id):
         if book['id'] == book_id:
             BOOKS.remove(book)
             return True
-        return False
+
+    return False
 
 if __name__ == '__main__':
   app.run()
